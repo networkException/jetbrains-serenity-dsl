@@ -41,6 +41,8 @@ intellij {
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
+
+    sourceSets["main"].java.srcDirs("src/main/gen")
 }
 
 // Configure gradle-changelog-plugin plugin.

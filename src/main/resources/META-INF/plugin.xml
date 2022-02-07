@@ -1,19 +1,18 @@
 <idea-plugin>
-    <id>org.jetbrains.plugins.template</id>
-    <name>Template</name>
-    <vendor>JetBrains</vendor>
+    <id>de.nwex.serenity</id>
+    <name>SerenityOS DSL Comprehension</name>
+    <vendor>networkException</vendor>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="org.jetbrains.plugins.template.services.MyApplicationService"/>
-        <projectService serviceImplementation="org.jetbrains.plugins.template.services.MyProjectService"/>
+        <fileType name="Serenity IPC Definition File" implementationClass="de.nwex.serenity.ipc.IPCFileType" fieldName="INSTANCE" language="Serentiy IPC" extensions="ipc" />
+        <lang.parserDefinition language="Serentiy IPC" implementationClass="de.nwex.serenity.ipc.IPCParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Serentiy IPC" implementationClass="de.nwex.serenity.ipc.IPCSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="de.nwex.serenity.ipc.IPCColorSettingsPage"/>
+        <annotator language="Serentiy IPC" implementationClass="de.nwex.serenity.ipc.IPCAnnotator"/>
+        <!--<multiHostInjector implementation="de.nwex.serenity.ipc.IPCAnnotator" />-->
     </extensions>
-
-    <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
 </idea-plugin>

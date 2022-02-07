@@ -1,0 +1,54 @@
+{
+    parserClass="de.nwex.serenity.ipc.IPCParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="IPC"
+    psiImplClassSuffix="Impl"
+    psiPackage="de.nwex.serenity.ipc.psi"
+    psiImplPackage="de.nwex.serenity.ipc.psi.impl"
+
+    elementTypeHolderClass="de.nwex.serenity.ipc.IPCTypes"
+    elementTypeClass="de.nwex.serenity.ipc.IPCElementType"
+    tokenTypeClass="de.nwex.serenity.ipc.IPCTokenType"
+
+    tokens=[
+        ENDPOINT="endpoint"
+        INCLUDE="#include"
+
+        PAREN_OPEN="("
+        PAREN_CLOSE=")"
+        CURLY_OPEN="{"
+        CURLY_CLOSE="}"
+        ANGLE_OPEN="<"
+        ANGLE_CLOSE=">"
+        BRACKET_OPEN="["
+        BRACKET_CLOSE="]"
+        COMMA=","
+        SYNC="=>"
+        ASYNC="=|"
+        SCOPE_RESOLUTION="::"
+
+        SPACE="regexp:\s+"
+        COMMENT='regexp://.*'
+
+        IDENTIFIER="regexp:[a-zA-Z_][a-zA-Z0-9_]*"
+        PATH="regexp:[\w/.]*"
+    ]
+}
+
+root ::= [ include-statement * ] endpoint-statement
+
+include-statement ::= INCLUDE header
+header ::= { "<" | '"' } PATH { ">" | '"' }
+
+endpoint-statement ::= ENDPOINT IDENTIFIER "{" [ function-statement * ] "}"
+function-statement ::= IDENTIFIER "(" parameter-list ")" { SYNC "(" [ parameter-list ] ")" | ASYNC }
+
+parameter-list ::= [ <<list parameter>> ]
+parameter ::= attribute type IDENTIFIER
+attribute ::= [ "[" IDENTIFIER "]" ]
+
+type ::= IDENTIFIER "<" <<list type>> ">" | <<type>> ('::' <<type>>) | IDENTIFIER
+
+meta list ::= <<p>> (',' <<p>>) *
